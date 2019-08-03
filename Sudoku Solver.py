@@ -12,8 +12,8 @@ import time
 sys.setrecursionlimit(100000)
 #Here is the Sudoku Below. It is a 9x9 grid formatted in Python as a list of 9 lists of numbers in the r
 def PrintSudoku():
-for i in Sudoku:
-print(i)
+  for i in Sudoku:
+    print(i)
 
 #30 given numbers
 example1 = [
@@ -90,7 +90,7 @@ example6 = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
 
-SudokuInput = input("Enter Sudoku Grid as an Array of Rows. \nIf you want to use the example sudoku boar
+SudokuInput = input("Enter Sudoku Grid as an Array of Rows. \nIf you want to use the example sudoku board enter example(n) without parenthesis for n={1, 2, 3, 4, 5, 6}.")
 Sudoku = eval(SudokuInput)
 print("\n\nYou have chose to solve the following sudoku grid:")
 PrintSudoku()
@@ -108,145 +108,167 @@ SudokuPossibilities = [
 [[], [], [], [], [], [], [], [], []],
 ]
 def SudokuRow(row):
-return Sudoku[row]
+  return Sudoku[row]
+
 def SudokuColumn(column): #Abstraction
-SudokuSplice = []
-for i in Sudoku:
-SudokuSplice.append(i[column])
-return SudokuSplice
+  SudokuSplice = []
+  for i in Sudoku:
+    SudokuSplice.append(i[column])
+  return SudokuSplice
+
 def Number(row, column):
-return Sudoku[row][column]
+  return Sudoku[row][column]
+
 def PossibilitiesNumber(row, column):
-return Sudoku[row][column]
+  return Sudoku[row][column]
+
 def NumberInRow(number, row):
-status = False
-for j in SudokuRow(row):
-if (j == number):
-status = True
-return status
+  status = False
+  for j in SudokuRow(row):
+    if (j == number):
+      status = True
+  return status
+
 def NumberInColumn(number, column):
-status = False
-for k in SudokuColumn(column):
-if (k == number):
-status = True
-return status
+  status = False
+  for k in SudokuColumn(column):
+    if (k == number):
+      status = True
+  return status
+
 def NumberInNineSquare(bottomleftX, bottomleftY, number):
-SquareList = []
-for i in range(0, 3):
-for j in range(0, 3):
-SquareList.append(Number(bottomleftY+i, bottomleftX+j))
-if (SquareList.count(number) > 0):
-return True
-else:
-return False
+  SquareList = []
+  for i in range(0, 3):
+    for j in range(0, 3):
+      SquareList.append(Number(bottomleftY+i, bottomleftX+j))
+  if (SquareList.count(number) > 0):
+    return True
+  else:
+    return False
+
 def NineSquare(bottomleftX, bottomleftY):
-SquareList = []
-for i in range(0, 3):
-for j in range(0, 3):
-SquareList.append(Number(bottomleftY+i, bottomleftX+j))
-return SquareList
+  SquareList = []
+  for i in range(0, 3):
+    for j in range(0, 3):
+      SquareList.append(Number(bottomleftY+i, bottomleftX+j))
+  return SquareList
+
 def RowValid(row):
-rowvalid = True
-for number in SudokuRow(row):
-if (SudokuRow(row).count(number)>1):
-rowvalid = False
-return rowvalid
+  rowvalid = True
+  for number in SudokuRow(row):
+    if (SudokuRow(row).count(number)>1):
+      rowvalid = False
+  return rowvalid
+
 def RowsValid():
-rowsvalid = True
-for row in range(0, 9):
-if (RowValid(row) == False):
-rowsvalid = False
-return rowsvalid
+  rowsvalid = True
+  for row in range(0, 9):
+    if (RowValid(row) == False):
+      rowsvalid = False
+  return rowsvalid
+
 def ColumnValid(column):
-columnvalid = True
-for number in SudokuColumn(column):
-if (SudokuColumn(column).count(number)>1):
-columnvalid = False
-return columnvalid
+  columnvalid = True
+  for number in SudokuColumn(column):
+    if (SudokuColumn(column).count(number)>1):
+      columnvalid = False
+  return columnvalid
+
 def ColumnsValid():
-columnsvalid = True
-for column in range(0, 9):
-if (ColumnValid(column) == False):
-columnsvalid = False
-return columnsvalid
+  columnsvalid = True
+  for column in range(0, 9):
+    if (ColumnValid(column) == False):
+      columnsvalid = False
+  return columnsvalid
+
 def NineSquareValid(bottomleftX, bottomleftY):
-squarevalid = True
-SquareList = NineSquare(bottomleftX, bottomleftY)
-for number in SquareList:
-if (SquareList.count(number)>1):
-squarevalid = False;
-return squarevalid
+  squarevalid = True
+  SquareList = NineSquare(bottomleftX, bottomleftY)
+  for number in SquareList:
+    if (SquareList.count(number)>1):
+      squarevalid = False;
+  return squarevalid
+
 def NineSquaresValid():
-ninesquaresvalid = True
-for x in [0, 3, 6]:
-for y in [0, 3, 6]:
-if (NineSquareValid(x, y) == False):
-ninesquaresvalid = False
-return ninesquaresvalid
+  ninesquaresvalid = True
+  for x in [0, 3, 6]:
+    for y in [0, 3, 6]:
+      if (NineSquareValid(x, y) == False):
+        ninesquaresvalid = False
+  return ninesquaresvalid
 
 # Creates the Sudoku Possiblities list
 def UpdateSudokuPossibilities():
-for row in range(9):
-for column in range(9):
-possibilities = []
-for number in range(1, 10):
-if (Sudoku[row][column] == 0 and NumberInRow(number, row) == False and NumberInColumn(number, colu
-possibilities.append(number)
-SudokuPossibilities[row][column] = possibilities
+  for row in range(9):
+    for column in range(9):
+      possibilities = []
+      for number in range(1, 10):
+        if (Sudoku[row][column] == 0 and NumberInRow(number, row) == False and NumberInColumn(number, column)):
+          possibilities.append(number)
+          SudokuPossibilities[row][column] = possibilities
 
 #Updates Sudoku Based on SudokuPosibilities and if there is only one element in a list of its list of li
 def UpdateSudoku():
-for row in range(9):
-for column in range(9):
-if (len(SudokuPossibilities[row][column]) == 1):
-Sudoku[row][column] = SudokuPossibilities[row][column][0]
+  for row in range(9):
+    for column in range(9):
+      if (len(SudokuPossibilities[row][column]) == 1):
+        Sudoku[row][column] = SudokuPossibilities[row][column][0]
+
 #Repeats updatesudoku and updatesudokupossibilities enough times to ensure discrete convergence
 def ReduceSudoku():
-for i in range(10):
-UpdateSudoku()
-UpdateSudokuPossibilities()
+  for i in range(5):
+    UpdateSudoku()
+    UpdateSudokuPossibilities()
+
 def SquareValid(row, column, value):
-rowvalid = all([value != Sudoku[row][i] for i in range(9)])
-if rowvalid:
-columnvalid = all([value != Sudoku[i][column] for i in range(9)])
-if columnvalid:
-TopLeftX, TopLeftY = 3*math.floor(row/3), 3*math.floor(column/3)
-for x in range(TopLeftX, TopLeftX+3):
-for y in range(TopLeftY, TopLeftY+3):
-if Sudoku[x][y] == value:
-return False
-return True
-return False
+  rowvalid = all([value != Sudoku[row][i] for i in range(9)])
+  if rowvalid:
+    columnvalid = all([value != Sudoku[i][column] for i in range(9)])
+    if columnvalid:
+      TopLeftX, TopLeftY = 3*math.floor(row/3), 3*math.floor(column/3)
+      for x in range(TopLeftX, TopLeftX+3):
+        for y in range(TopLeftY, TopLeftY+3):
+          if Sudoku[x][y] == value:
+            return False
+      return True
+  return False
+
 def NextUnsolvedSquare(): #Child Algorithm
-for x in range(0,9):
-for y in range(0,9):
-if Sudoku[x][y] == 0:
-return x,y
-return -1,-1
+  for x in range(0,9):
+    for y in range(0,9):
+      if Sudoku[x][y] == 0:
+        return x,y
+  return -1,-1
+
 def BruteForceSudoku(row=0, column=0): #Main Algorithm
-row,column = NextUnsolvedSquare()
-if (row == -1 and BoardValid()):
-return True
-for number in SudokuPossibilities[row][column]:
-if SquareValid(row,column,number):
-Sudoku[row][column] = number
-if BruteForceSudoku(row, column):
-return True
-Sudoku[row][column] = 0
-return False
+  row,column = NextUnsolvedSquare()
+  if (row == -1 and BoardValid()):
+    return True
+  for number in SudokuPossibilities[row][column]:
+    if SquareValid(row,column,number):
+      Sudoku[row][column] = number
+    if BruteForceSudoku(row, column):
+      return True
+    Sudoku[row][column] = 0
+  return False
+
 def BoardValid(): #Child Algorithm
-if (RowsValid() == True and ColumnsValid() == True and NineSquaresValid() == True):
-return True
-else:
-return False
+  if (RowsValid() == True and ColumnsValid() == True and NineSquaresValid() == True):
+    return True
+  else:
+    return False
+
 UpdateSudokuPossibilities()
 ReduceSudoku()
+
 print("Solving... Please Wait")
+
 BruteForceSudoku()
 end = time.time()
+
 if BoardValid():
-print("Solution: \n")
-PrintSudoku()
-print("\nTime Taken: ", end - start, "seconds")
+  print("Solution: \n")
+  PrintSudoku()
+  print("\nTime Taken: ", end - start, "seconds")
 else:
-print("No Solution")
+  print("No Solution")
