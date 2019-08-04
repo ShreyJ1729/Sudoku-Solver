@@ -9,7 +9,7 @@
 import sys
 import math
 import time
-sys.setrecursionlimit(100000)
+sys.setrecursionlimit(10000)
 #Here is the Sudoku Below. It is a 9x9 grid formatted in Python as a list of 9 lists of numbers in the r
 def PrintSudoku():
   for i in Sudoku:
@@ -203,9 +203,9 @@ def UpdateSudokuPossibilities():
     for column in range(9):
       possibilities = []
       for number in range(1, 10):
-        if (Sudoku[row][column] == 0 and NumberInRow(number, row) == False and NumberInColumn(number, column)):
+        if (Sudoku[row][column] == 0 and NumberInRow(number, row) == False and NumberInColumn(number, column) and NumberInNineSquare(int(3*math.floor(column/3)), int(3*math.floor(row/3)), number) == False):
           possibilities.append(number)
-          SudokuPossibilities[row][column] = possibilities
+        SudokuPossibilities[row][column] = possibilities
 
 #Updates Sudoku Based on SudokuPosibilities and if there is only one element in a list of its list of li
 def UpdateSudoku():
@@ -216,7 +216,7 @@ def UpdateSudoku():
 
 #Repeats updatesudoku and updatesudokupossibilities enough times to ensure discrete convergence
 def ReduceSudoku():
-  for i in range(5):
+  for i in range(10):
     UpdateSudoku()
     UpdateSudokuPossibilities()
 
@@ -247,9 +247,9 @@ def BruteForceSudoku(row=0, column=0): #Main Algorithm
   for number in SudokuPossibilities[row][column]:
     if SquareValid(row,column,number):
       Sudoku[row][column] = number
-    if BruteForceSudoku(row, column):
-      return True
-    Sudoku[row][column] = 0
+      if BruteForceSudoku(row, column):
+        return True
+      Sudoku[row][column] = 0
   return False
 
 def BoardValid(): #Child Algorithm
